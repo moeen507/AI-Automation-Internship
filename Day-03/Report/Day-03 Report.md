@@ -1,7 +1,7 @@
 # MATalogics AI Automation Internship - Day 03 Report
 
 **Student Name:** Moeen Ahmad Butt  
-**GitHub Repository:** https://github.com/moeen507/Ai-lab-project  
+**GitHub Repository:** https://github.com/moeen507/AI-Automation-Internship  
 **Open Source Repository:** https://github.com/enescingoz/awesome-n8n-templates  
 **Date:** 9 August 2026
 
