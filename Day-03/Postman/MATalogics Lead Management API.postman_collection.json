@@ -1,0 +1,86 @@
+{
+  "info": {
+    "name": "MATalogics Lead Management API",
+    "description": "Day-03 CRUD API tests for the n8n Lead Management workflow backed by Google Sheets.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://YOUR-N8N-HOST/webhook"
+    }
+  ],
+  "item": [
+    {
+      "name": "POST - Create Lead",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json", "type": "text"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Muhammad Ahmad\",\n  \"email\": \"ahmad@gmail.com\",\n  \"phone\": \"+923001234567\",\n  \"company\": \"MATalogics\",\n  \"interest\": \"AI Automation\"\n}",
+          "options": {"raw": {"language": "json"}}
+        },
+        "url": {
+          "raw": "{{base_url}}/create-lead",
+          "host": ["{{base_url}}"],
+          "path": ["create-lead"]
+        }
+      }
+    },
+    {
+      "name": "GET - Get All Leads",
+      "request": {
+        "method": "GET",
+        "header": [
+          {"key": "Accept", "value": "application/json", "type": "text"}
+        ],
+        "url": {
+          "raw": "{{base_url}}/get-leads",
+          "host": ["{{base_url}}"],
+          "path": ["get-leads"]
+        }
+      }
+    },
+    {
+      "name": "PUT - Update Lead",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {"key": "Content-Type", "value": "application/json", "type": "text"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"ahmad@gmail.com\",\n  \"phone\": \"+923111111111\",\n  \"company\": \"MATalogics Pvt Ltd\",\n  \"interest\": \"AI Agents\"\n}",
+          "options": {"raw": {"language": "json"}}
+        },
+        "url": {
+          "raw": "{{base_url}}/update-lead",
+          "host": ["{{base_url}}"],
+          "path": ["update-lead"]
+        }
+      }
+    },
+    {
+      "name": "DELETE - Delete Lead",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {"key": "Content-Type", "value": "application/json", "type": "text"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"ahmad@gmail.com\"\n}",
+          "options": {"raw": {"language": "json"}}
+        },
+        "url": {
+          "raw": "{{base_url}}/delete-lead",
+          "host": ["{{base_url}}"],
+          "path": ["delete-lead"]
+        }
+      }
+    }
+  ]
+}
