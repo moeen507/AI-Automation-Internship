@@ -1,0 +1,6 @@
+PENDING LIVE CONFIGURATION
+
+Create a Google Sheet named "Lead Management" with a tab named "Leads" and these columns:
+Name | Email | Phone | Company | Interest | Created At
+
+Then replace this file with the real Google Sheet URL and update REPLACE_WITH_GOOGLE_SHEET_ID in the n8n workflow.
