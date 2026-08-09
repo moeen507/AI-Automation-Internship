@@ -1,0 +1,5 @@
+Pull Request: Not submitted.
+
+Reason: the selected open-source repository requires a fork/branch contribution flow, but the connected GitHub actions available in this session do not provide a fork-repository action. No PR link is claimed because no PR was actually created.
+
+This item is optional in the Day-3 brief.
