@@ -1,0 +1,3 @@
+https://github.com/enescingoz/awesome-n8n-templates
+
+Selected because it is directly related to n8n automation workflows and contains ready-to-import workflow examples across AI, Google Sheets, email, messaging, RAG, and other automation use cases.
