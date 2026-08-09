@@ -2,13 +2,21 @@
 
 Import `Lead Management Workflow.json` into n8n.
 
-## Required configuration
+## Live Google Sheet
 
-- Connect your Google Sheets OAuth2 credential.
-- Replace `REPLACE_WITH_GOOGLE_SHEET_ID` in each Google Sheets node with the ID of your Lead Management spreadsheet.
-- Use the `Leads` sheet tab.
-- Required columns: `Name`, `Email`, `Phone`, `Company`, `Interest`, `Created At`.
+The workflow is already configured to use the live **Lead Management** spreadsheet:
+
+https://docs.google.com/spreadsheets/d/1liSm00d1WfLrNkpwPvpr0K-kqcLuwMvtU5xC7VP_hD0/edit
+
+Sheet tab: `Leads`
+
+Required columns: `Name`, `Email`, `Phone`, `Company`, `Interest`, `Created At`.
+
+## Remaining n8n configuration
+
+- Select your authorized Google Sheets OAuth2 credential on each Google Sheets node after import.
 - Activate the workflow before using production webhook URLs.
+- Copy the production webhook base URL into the Postman `base_url` environment variable.
 
 ## Endpoints
 
