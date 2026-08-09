@@ -1,0 +1,189 @@
+{
+  "name": "MATalogics Lead Management API - Day 03",
+  "nodes": [
+    {
+      "parameters": {"httpMethod": "POST", "path": "create-lead", "responseMode": "responseNode", "options": {}},
+      "id": "1",
+      "name": "POST Create Lead",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-1100, -420],
+      "webhookId": "create-lead-day03"
+    },
+    {
+      "parameters": {
+        "jsCode": "const b = $json.body ?? $json;\nconst required = ['name','email','phone','company','interest'];\nconst missing = required.filter(k => !String(b[k] ?? '').trim());\nif (missing.length) throw new Error(`Missing required fields: ${missing.join(', ')}`);\nif (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(b.email)) throw new Error('Invalid email address');\nreturn [{json:{Name:b.name,Email:b.email,Phone:b.phone,Company:b.company,Interest:b.interest,'Created At':new Date().toISOString()}}];"
+      },
+      "id": "2",
+      "name": "Validate Create Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-860, -420]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {"__rl": true, "value": "REPLACE_WITH_GOOGLE_SHEET_ID", "mode": "id"},
+        "sheetName": {"__rl": true, "value": "Leads", "mode": "name"},
+        "columns": {"mappingMode": "autoMapInputData", "value": {}, "matchingColumns": [], "schema": [], "attemptToConvertTypes": false, "convertFieldsToString": false},
+        "options": {}
+      },
+      "id": "3",
+      "name": "Google Sheets - Append Lead",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [-600, -420],
+      "credentials": {"googleSheetsOAuth2Api": {"id": "REPLACE_CREDENTIAL_ID", "name": "Google Sheets account"}}
+    },
+    {
+      "parameters": {"respondWith": "json", "responseBody": "={{ { success: true, message: 'Lead created successfully', lead: $json } }}", "options": {"responseCode": 201}},
+      "id": "4",
+      "name": "Respond Create Lead",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [-340, -420]
+    },
+    {
+      "parameters": {"httpMethod": "GET", "path": "get-leads", "responseMode": "responseNode", "options": {}},
+      "id": "5",
+      "name": "GET All Leads",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-1100, -120],
+      "webhookId": "get-leads-day03"
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {"__rl": true, "value": "REPLACE_WITH_GOOGLE_SHEET_ID", "mode": "id"},
+        "sheetName": {"__rl": true, "value": "Leads", "mode": "name"},
+        "options": {}
+      },
+      "id": "6",
+      "name": "Google Sheets - Read Leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [-820, -120],
+      "credentials": {"googleSheetsOAuth2Api": {"id": "REPLACE_CREDENTIAL_ID", "name": "Google Sheets account"}}
+    },
+    {
+      "parameters": {"respondWith": "json", "responseBody": "={{ $input.all().map(item => item.json) }}", "options": {"responseCode": 200}},
+      "id": "7",
+      "name": "Respond Get Leads",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [-520, -120]
+    },
+    {
+      "parameters": {"httpMethod": "PUT", "path": "update-lead", "responseMode": "responseNode", "options": {}},
+      "id": "8",
+      "name": "PUT Update Lead",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-1100, 180],
+      "webhookId": "update-lead-day03"
+    },
+    {
+      "parameters": {
+        "jsCode": "const b = $json.body ?? $json;\nif (!String(b.email ?? '').trim()) throw new Error('email is required');\nif (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(b.email)) throw new Error('Invalid email address');\nreturn [{json:{Email:b.email,Phone:b.phone ?? '',Company:b.company ?? '',Interest:b.interest ?? ''}}];"
+      },
+      "id": "9",
+      "name": "Validate Update Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-860, 180]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {"__rl": true, "value": "REPLACE_WITH_GOOGLE_SHEET_ID", "mode": "id"},
+        "sheetName": {"__rl": true, "value": "Leads", "mode": "name"},
+        "columns": {"mappingMode": "autoMapInputData", "value": {}, "matchingColumns": ["Email"], "schema": [], "attemptToConvertTypes": false, "convertFieldsToString": false},
+        "options": {}
+      },
+      "id": "10",
+      "name": "Google Sheets - Update by Email",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [-600, 180],
+      "credentials": {"googleSheetsOAuth2Api": {"id": "REPLACE_CREDENTIAL_ID", "name": "Google Sheets account"}}
+    },
+    {
+      "parameters": {"respondWith": "json", "responseBody": "={{ { success: true, message: 'Lead updated successfully', lead: $json } }}", "options": {"responseCode": 200}},
+      "id": "11",
+      "name": "Respond Update Lead",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [-340, 180]
+    },
+    {
+      "parameters": {"httpMethod": "DELETE", "path": "delete-lead", "responseMode": "responseNode", "options": {}},
+      "id": "12",
+      "name": "DELETE Lead",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-1100, 480],
+      "webhookId": "delete-lead-day03"
+    },
+    {
+      "parameters": {
+        "jsCode": "const b = $json.body ?? $json;\nif (!String(b.email ?? '').trim()) throw new Error('email is required');\nif (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(b.email)) throw new Error('Invalid email address');\nreturn [{json:{Email:b.email}}];"
+      },
+      "id": "13",
+      "name": "Validate Delete Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-860, 480]
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {"__rl": true, "value": "REPLACE_WITH_GOOGLE_SHEET_ID", "mode": "id"},
+        "sheetName": {"__rl": true, "value": "Leads", "mode": "name"},
+        "filtersUI": {"values": [{"lookupColumn": "Email", "lookupValue": "={{ $json.Email }}"}]},
+        "options": {}
+      },
+      "id": "14",
+      "name": "Google Sheets - Delete by Email",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [-600, 480],
+      "credentials": {"googleSheetsOAuth2Api": {"id": "REPLACE_CREDENTIAL_ID", "name": "Google Sheets account"}}
+    },
+    {
+      "parameters": {"respondWith": "json", "responseBody": "={{ { success: true, message: 'Lead deleted successfully', email: $('Validate Delete Data').item.json.Email } }}", "options": {"responseCode": 200}},
+      "id": "15",
+      "name": "Respond Delete Lead",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [-340, 480]
+    },
+    {
+      "parameters": {"content": "## Day 03 Setup\nReplace the Google Sheet ID and Google Sheets credential in all Sheets nodes. The sheet tab must be named `Leads` with columns: Name, Email, Phone, Company, Interest, Created At. Activate the workflow before testing the production webhook URLs in Postman.", "height": 240, "width": 420},
+      "id": "16",
+      "name": "Setup Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-100, -80]
+    }
+  ],
+  "connections": {
+    "POST Create Lead": {"main": [[{"node": "Validate Create Data", "type": "main", "index": 0}]]},
+    "Validate Create Data": {"main": [[{"node": "Google Sheets - Append Lead", "type": "main", "index": 0}]]},
+    "Google Sheets - Append Lead": {"main": [[{"node": "Respond Create Lead", "type": "main", "index": 0}]]},
+    "GET All Leads": {"main": [[{"node": "Google Sheets - Read Leads", "type": "main", "index": 0}]]},
+    "Google Sheets - Read Leads": {"main": [[{"node": "Respond Get Leads", "type": "main", "index": 0}]]},
+    "PUT Update Lead": {"main": [[{"node": "Validate Update Data", "type": "main", "index": 0}]]},
+    "Validate Update Data": {"main": [[{"node": "Google Sheets - Update by Email", "type": "main", "index": 0}]]},
+    "Google Sheets - Update by Email": {"main": [[{"node": "Respond Update Lead", "type": "main", "index": 0}]]},
+    "DELETE Lead": {"main": [[{"node": "Validate Delete Data", "type": "main", "index": 0}]]},
+    "Validate Delete Data": {"main": [[{"node": "Google Sheets - Delete by Email", "type": "main", "index": 0}]]},
+    "Google Sheets - Delete by Email": {"main": [[{"node": "Respond Delete Lead", "type": "main", "index": 0}]]}
+  },
+  "pinData": {},
+  "active": false,
+  "settings": {"executionOrder": "v1"},
+  "versionId": "8c87029e-7290-4c87-8434-day03matalogics",
+  "meta": {"templateCredsSetupCompleted": false},
+  "tags": []
+}
