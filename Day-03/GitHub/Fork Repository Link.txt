@@ -1,0 +1,6 @@
+Fork not created automatically in this session because the connected GitHub action set does not expose a fork-repository operation.
+
+Original repository selected:
+https://github.com/enescingoz/awesome-n8n-templates
+
+Recommended manual step: click Fork on GitHub, then paste the fork URL here.
